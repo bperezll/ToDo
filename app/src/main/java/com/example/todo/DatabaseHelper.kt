@@ -1,5 +1,6 @@
 package com.example.todo
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -50,6 +51,7 @@ class DatabaseHelper(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         values.put("done", false)
     }
 
+    @SuppressLint("Range", "Recycle")
     fun readTasks() {
         val db= writableDatabase
         val cursor = db.query(
@@ -61,13 +63,30 @@ class DatabaseHelper(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME,
             null,
             "done DESC"
         )
-        if(cursor.moveToFirst()) {
+        /*if(cursor.moveToFirst()) {
             do {
                 val id = cursor.getString(0)
                 val task = cursor.getString(1)
                 val done = cursor.getInt(2) == 1
                 Log.i("DATABASE", "$id -> Task: $task, Done: $done")
             } while (cursor.moveToNext())
+        }*/
+
+        while(cursor.moveToNext()) {
+            val id = cursor.getString(cursor.getColumnIndex("id"))
+            val task = cursor.getString(cursor.getColumnIndex("task"))
+            val done = cursor.getInt(cursor.getColumnIndex("done")) == 1
+            Log.i("DATABASE", "$id -> Task: $task, Done: $done")
         }
+    }
+
+    fun updateTask() {
+        val db = writableDatabase
+
+        var values = ContentValues()
+        values.put("done", true)
+
+        var updateRows = db.update("Task", values, "id = ? OR id = ?", null)
+        Log.i("DATABASE", "Updated records: $updateRows")
     }
 }
