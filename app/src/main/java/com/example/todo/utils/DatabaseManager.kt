@@ -1,4 +1,4 @@
-package com.example.todo
+package com.example.todo.utils
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
-class DatabaseHelper(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DatabaseManager(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         const val DATABASE_NAME = "to_do.db"
@@ -15,9 +15,9 @@ class DatabaseHelper(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME,
 
         private const val SQL_CREATE_TABLE =
             "CREATE TABLE Task (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "task TEXT," +
-                    "done BOOLEAN)"
+            "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "task TEXT," +
+            "done BOOLEAN)"
 
         private const val SQL_DELETE_TABLE = "DROP TABLE IF EXISTS task"
     }
@@ -43,15 +43,18 @@ class DatabaseHelper(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         values.put("task", "Comprar leche")
         values.put("done", false)
 
-        val newRowId = db.insert("Task", null, values)
-        Log.i("databasew", "New record ID: $newRowId")
+        var newRowId = db.insert("Task", null, values)
+        Log.i("DATABASE", "New record ID: $newRowId")
 
         values = ContentValues()
         values.put("task", "Limpiar el coche")
         values.put("done", false)
+
+        newRowId = db.insert("Task", null, values)
+        Log.i("DATABASE", "New record id: $newRowId")
     }
 
-    @SuppressLint("Range", "Recycle")
+    @SuppressLint("Range")
     fun readTasks() {
         val db= writableDatabase
         val cursor = db.query(
@@ -78,6 +81,7 @@ class DatabaseHelper(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME,
             val done = cursor.getInt(cursor.getColumnIndex("done")) == 1
             Log.i("DATABASE", "$id -> Task: $task, Done: $done")
         }
+        cursor.close()
     }
 
     fun updateTask() {
@@ -86,7 +90,14 @@ class DatabaseHelper(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         var values = ContentValues()
         values.put("done", true)
 
-        var updateRows = db.update("Task", values, "id = ? OR id = ?", null)
+        var updateRows = db.update("Task", values, "id = ? OR id = ?", arrayOf("1", "3"))
         Log.i("DATABASE", "Updated records: $updateRows")
+    }
+
+    fun deleteTask() {
+        val db = writableDatabase
+
+        val deleteRows = db.delete("Task", "id = 1", null)
+        Log.i("DATABASE", "Deleted rows: $deleteRows")
     }
 }
