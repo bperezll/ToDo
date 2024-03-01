@@ -23,6 +23,29 @@ class MainActivity : AppCompatActivity() {
         for(task in taskList) {
             Log.i("DATABASE", task.toString())
         }
+
+        var taskFind: Task? = taskDAO.find(2)
+
+        if(taskFind != null) {
+            Log.i("DATABASE", taskFind.toString())
+            taskFind.done = true
+            taskFind.task = "Pagar facturas"
+
+            taskDAO.update(taskFind)
+        }
+
+        taskFind = taskDAO.find(2)
+        Log.i("DATABASE", taskFind.toString())
+
+        if (taskFind != null) {
+            taskDAO.delete(taskFind)
+            taskFind = taskDAO.find(2)
+            if(taskFind != null) {
+                Log.i("DATABASE", taskFind.toString())
+            } else {
+                Log.i("DATABASE", "La tarea ha sido borrada")
+            }
+        }
         /*val db: DatabaseManager = DatabaseManager(this)
         //db.createTask()
         db.readTasks()
