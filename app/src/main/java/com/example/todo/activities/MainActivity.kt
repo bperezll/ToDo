@@ -13,10 +13,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val task: Task = Task(-1, "Comprar leche", false)
+        var task: Task = Task(-1, "Comprar leche", false)
 
         val taskDAO = TaskDAO(this)
-        taskDAO.insert(task)
+
+        task = taskDAO.insert(task)
 
         val taskList = taskDAO.findAll()
 

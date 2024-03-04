@@ -33,7 +33,7 @@ class TaskDAO(context: Context) {
         values.put(Task.COLUMN_NAME_TASK, task.task)
         values.put(Task.COLUMN_NAME_DONE, task.done)
 
-        var updateRows = db.update(Task.TABLE_NAME, values, "id = ${task.id}", null)
+        var updateRows = db.update(Task.TABLE_NAME, values, "${DatabaseManager.COLUMN_NAME_ID} = ${task.id}", null)
         Log.i("DATABASE", "Updated records: $updateRows")
 
         db.close()
@@ -42,7 +42,7 @@ class TaskDAO(context: Context) {
     fun delete(task: Task) {
         val db = databaseManager.writableDatabase
 
-        val deleteRows = db.delete(Task.TABLE_NAME, "id = ${task.id}", null)
+        val deleteRows = db.delete(Task.TABLE_NAME, "${DatabaseManager.COLUMN_NAME_ID} = ${task.id}", null)
         Log.i("DATABASE", "Deleted rows: $deleteRows")
 
         db.close()
@@ -108,6 +108,7 @@ class TaskDAO(context: Context) {
 
         cursor.close()
         db.close()
+
         return list
     }
 }

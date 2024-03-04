@@ -21,7 +21,7 @@ class DatabaseManager(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME
             "${Task.COLUMN_NAME_TASK} TEXT," +
             "${Task.COLUMN_NAME_DONE} BOOLEAN)"
 
-        private const val SQL_DELETE_TABLE = "DROP TABLE IF EXISTS task"
+        private const val SQL_DELETE_TABLE = "DROP TABLE IF EXISTS ${Task.TABLE_NAME}"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -29,6 +29,9 @@ class DatabaseManager(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        if (oldVersion == 1) {
+            db.execSQL("DROP TABLE IF EXISTS ${Task.TABLE_NAME}")
+        }
         destroyDatabase(db)
         onCreate(db)
     }
@@ -36,6 +39,8 @@ class DatabaseManager(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME
     private fun destroyDatabase(db: SQLiteDatabase) {
         db.execSQL(SQL_DELETE_TABLE)
     }
+
+    //////////////////////////////////////
 
     fun createTask() {
         val db = writableDatabase
