@@ -1,8 +1,10 @@
 package com.example.todo.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.todo.data.Task
+import com.example.todo.data.providers.TaskDAO
 import com.example.todo.databinding.ActivityAddTaskBinding
 
 class AddTaskActivity : AppCompatActivity() {
@@ -18,9 +20,17 @@ class AddTaskActivity : AppCompatActivity() {
         setContentView(view)
 
         //val taskAdding = intent.getStringExtra(binding.addTaskBody.text.toString())
+        addTask()
     }
 
-    fun addTask() {
-         Task(-1, binding.addTaskBody.text.toString(), false)
+    private fun addTask() {
+         binding.saveTaskButton.setOnClickListener() {
+             var task: Task = Task(-1, binding.addTaskBody.text.toString(), false)
+             val taskDAO = TaskDAO(this)
+             task = taskDAO.insert(task)
+
+             val intent = Intent(this, MainActivity::class.java)
+             startActivity(intent)
+         }
     }
 }

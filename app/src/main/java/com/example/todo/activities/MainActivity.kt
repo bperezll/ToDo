@@ -69,7 +69,6 @@ class MainActivity : AppCompatActivity() {
         // Go to AddTaskActivity
         binding.btnFab.setOnClickListener() {
             val intent = Intent(this, AddTaskActivity::class.java)
-            //intent.putExtra(taskAdding)
             startActivity(intent)
         }
     }
