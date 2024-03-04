@@ -16,6 +16,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding // View Binding declaration
 
     private lateinit var adapter: TaskAdapter // Adapter declaration
+
+    private var taskList:List<Task> = listOf() // Using Task as a List
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,15 +28,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         // Adding TaskAdapter
-        adapter = TaskAdapter() {}//{ onItemClickListener(it) }
+        adapter = TaskAdapter() { onItemClickListener(it) }
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        ////adapter.updateItems(taskList)
 
-        var task: Task = Task(-1, "Comprar leche", false)
+        //var task: Task = Task(-1, "Comprar leche", false)
 
         val taskDAO = TaskDAO(this)
 
-        task = taskDAO.insert(task)
+        //task = taskDAO.insert(task)
 
         val taskList = taskDAO.findAll()
 
@@ -41,9 +45,9 @@ class MainActivity : AppCompatActivity() {
             Log.i("DATABASE", task.toString())
         }
 
-        var taskFind: Task? = taskDAO.find(2)
+        //var taskFind: Task? = taskDAO.find(2)
 
-        if(taskFind != null) {
+        /*if(taskFind != null) {
             Log.i("DATABASE", taskFind.toString())
             taskFind.done = true
             taskFind.task = "Pagar facturas"
@@ -62,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Log.i("DATABASE", "La tarea ha sido borrada")
             }
-        }
+        }*/
         /*val db: DatabaseManager = DatabaseManager(this)
         //db.createTask()
         db.readTasks()
@@ -77,6 +81,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun onItemClickListener(position:Int) {
+        val task: Task = taskList[position]
+
+        //val intent = Intent(this, DetailActivity::class.java)
+        //intent.putExtra(EXTRA_ID, superhero.id)
+        //intent.putExtra(EXTRA_NAME, superhero.name)
+        //intent.putExtra(EXTRA_IMAGE, superhero.image.url)
+        //startActivity(intent)
+        //Toast.makeText(this, getString(horoscope.name), Toast.LENGTH_LONG).show()
+    }
 
 
     /*private fun createTaskDialog() {

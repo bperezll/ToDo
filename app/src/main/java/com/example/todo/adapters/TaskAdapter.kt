@@ -30,7 +30,6 @@ class TaskAdapter(private var items:List<Task> = listOf(),
 class ViewHolder(val binding: ItemTaskListBinding) :RecyclerView.ViewHolder(binding.root) {
 
     fun render(task:Task) {
-        //binding.nameTextView.text = superhero.name
         //binding.doneCheckbox = task.done
         binding.taskTextView.text = task.task
 
