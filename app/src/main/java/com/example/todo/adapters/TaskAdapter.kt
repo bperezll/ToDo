@@ -27,7 +27,7 @@ class TaskAdapter(private var items:List<Task> = listOf(),
     }
 }
 
-class ViewHolder(val binding: ItemTaskListBinding) :RecyclerView.ViewHolder(binding.root) {
+class ViewHolder(val binding: ItemTaskListBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun render(task:Task) {
         //binding.doneCheckbox = task.done

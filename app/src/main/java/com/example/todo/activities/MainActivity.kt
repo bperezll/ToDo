@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         adapter = TaskAdapter() { onItemClickListener(it) }
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        ////adapter.updateItems(taskList)
+        ///adapter.updateItems(taskList)
 
         //var task: Task = Task(-1, "Comprar leche", false)
 
