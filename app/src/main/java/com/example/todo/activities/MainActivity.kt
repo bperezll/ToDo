@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todo.adapters.TaskAdapter
 import com.example.todo.data.Task
 import com.example.todo.data.providers.TaskDAO
 import com.example.todo.databinding.ActivityMainBinding
@@ -12,6 +14,8 @@ import com.example.todo.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding // View Binding declaration
+
+    private lateinit var adapter: TaskAdapter // Adapter declaration
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -20,10 +24,10 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        // FAB button action
-        binding.btnFab.setOnClickListener {
-
-        }
+        // Adding TaskAdapter
+        adapter = TaskAdapter() {}//{ onItemClickListener(it) }
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         var task: Task = Task(-1, "Comprar leche", false)
 
