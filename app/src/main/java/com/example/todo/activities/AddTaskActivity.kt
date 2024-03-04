@@ -19,7 +19,6 @@ class AddTaskActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        //val taskAdding = intent.getStringExtra(binding.addTaskBody.text.toString())
         addTask()
     }
 
