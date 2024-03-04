@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         ///adapter.updateItems(taskList)
+        //taskList = //response.body()?.results.orEmpty()
+        adapter.updateItems(taskList)
 
         //var task: Task = Task(-1, "Comprar leche", false)
 
@@ -101,4 +103,29 @@ class MainActivity : AppCompatActivity() {
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }*/
+
+    /*
+
+    private fun searchSuperheroes(query: String) {
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val response: Response<SuperheroesResponse> = RetrofitCalls().service.searchByName(query)
+
+            runOnUiThread {
+                if (response != null) {
+                    Log.i("HTTP", "Respuesta correcta")
+                    Log.i("HTTP", "Respuesta ${response.body()?.response}")
+                    Log.i("HTTP", "Respuesta ${response.body()?.results?.first()?.name}")
+                    superheroList = response.body()?.results.orEmpty()
+                    adapter.updateItems(superheroList)
+
+                } else {
+                    Log.i("HTTP", "Respuesta erronea")
+                }
+            }
+        }
+    }
+
+     */
 }
