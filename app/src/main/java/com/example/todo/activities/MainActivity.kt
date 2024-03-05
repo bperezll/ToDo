@@ -8,7 +8,6 @@ import com.example.todo.adapters.TaskAdapter
 import com.example.todo.data.Task
 import com.example.todo.data.providers.TaskDAO
 import com.example.todo.databinding.ActivityMainBinding
-import com.example.todo.databinding.ItemTaskListBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,8 +16,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: TaskAdapter // Adapter declaration
 
     private var taskList:MutableList<Task> = mutableListOf() // Using Task as a List
-
-    private lateinit var bindingItemTaskList: ItemTaskListBinding // Declaring this view to use the delete task button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         // Adding TaskAdapter
-        adapter = TaskAdapter(taskList) { onDeleteItemListener(it) }
+        adapter = TaskAdapter(taskList) { onDeleteItemListener(it) } //{ onCheckedListener(it) }
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -56,13 +53,22 @@ class MainActivity : AppCompatActivity() {
         }*/
     }
 
-    // For later
+    // Delete a task with the delete button
     private fun onDeleteItemListener(position:Int) {
         val task = taskList[position]
         val taskDAO = TaskDAO(this)
         taskDAO.delete(task)
         taskList.removeAt(position)
         adapter.notifyDataSetChanged()
+        //Toast.makeText(this, getString(horoscope.name), Toast.LENGTH_LONG).show()
+    }
+
+    private fun onCheckedListener(position:Int) {
+        //val task = taskList[position]
+        //val taskDAO = TaskDAO(this)
+        //taskDAO.delete(task)
+        //taskList.removeAt(position)
+        //adapter.notifyDataSetChanged()
         //Toast.makeText(this, getString(horoscope.name), Toast.LENGTH_LONG).show()
     }
 }
