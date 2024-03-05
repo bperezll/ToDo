@@ -33,6 +33,5 @@ class ViewHolder(val binding: ItemTaskListBinding) : RecyclerView.ViewHolder(bin
         //binding.doneCheckbox = task.done
         binding.taskTextView.text = task.task
 
-        //Picasso.get().load(superhero.image.url).into(binding.photoImageView)
     }
 }
