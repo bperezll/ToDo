@@ -30,9 +30,8 @@ class AddTaskActivity : AppCompatActivity() {
              val taskDAO = TaskDAO(this)
              taskDAO.insert(task)
 
-             // Go back to MainActivity
-             val intent = Intent(this, MainActivity::class.java)
-             startActivity(intent)
+             // Go back to MainActivity finishing AddTaskActivity
+             finish()
          }
     }
 }
