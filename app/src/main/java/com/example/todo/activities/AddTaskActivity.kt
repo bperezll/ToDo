@@ -1,9 +1,8 @@
 package com.example.todo.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.example.todo.data.Task
 import com.example.todo.data.providers.TaskDAO
 import com.example.todo.databinding.ActivityAddTaskBinding
@@ -24,13 +23,14 @@ class AddTaskActivity : AppCompatActivity() {
     }
 
     private fun addTask() {
-         binding.saveTaskButton.setOnClickListener() {
-             var task: Task = Task(-1, binding.addTaskBody.text.toString(), false)
+         binding.saveTaskButton.setOnClickListener {
+
+             // Add a task
+             val task = Task(-1, binding.addTaskBody.text.toString(), false)
              val taskDAO = TaskDAO(this)
-             task = taskDAO.insert(task)
+             taskDAO.insert(task)
 
-             //Log.i("DATABASE", task.toString())
-
+             // Go back to MainActivity
              val intent = Intent(this, MainActivity::class.java)
              startActivity(intent)
          }
