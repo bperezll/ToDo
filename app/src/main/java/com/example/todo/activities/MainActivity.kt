@@ -2,14 +2,12 @@ package com.example.todo.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todo.adapters.TaskAdapter
 import com.example.todo.data.Task
 import com.example.todo.data.providers.TaskDAO
 import com.example.todo.databinding.ActivityMainBinding
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,104 +26,43 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         // Adding TaskAdapter
-        adapter = TaskAdapter() { onItemClickListener(it) }
+        adapter = TaskAdapter(taskList) { onItemClickListener(it) }
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        ///adapter.updateItems(taskList)
-        //taskList = //response.body()?.results.orEmpty()
-        ////adapter.updateItems(taskList)
-
-        //var task: Task = Task(-1, "Comprar leche", false)
-
-        val taskDAO = TaskDAO(this)
-
-        //task = taskDAO.insert(task)
-
-        val taskList = taskDAO.findAll()
-
-        for(task in taskList) {
-            Log.i("DATABASE", task.toString())
-        }
-
-        //var taskFind: Task? = taskDAO.find(2)
-
-        /*if(taskFind != null) {
-            Log.i("DATABASE", taskFind.toString())
-            taskFind.done = true
-            taskFind.task = "Pagar facturas"
-
-            taskDAO.update(taskFind)
-        }
-
-        taskFind = taskDAO.find(2)
-        Log.i("DATABASE", taskFind.toString())
-
-        if (taskFind != null) {
-            taskDAO.delete(taskFind)
-            taskFind = taskDAO.find(2)
-            if(taskFind != null) {
-                Log.i("DATABASE", taskFind.toString())
-            } else {
-                Log.i("DATABASE", "La tarea ha sido borrada")
-            }
-        }*/
-        /*val db: DatabaseManager = DatabaseManager(this)
-        //db.createTask()
-        db.readTasks()
-        db.updateTask()
-        db.readTasks()
-        db.deleteTask()*/
 
         // Go to AddTaskActivity
-        binding.btnFab.setOnClickListener() {
+        binding.btnFab.setOnClickListener {
             val intent = Intent(this, AddTaskActivity::class.java)
             startActivity(intent)
         }
     }
 
-    private fun onItemClickListener(position:Int) {
-        val task: Task = taskList[position]
+    // After add task, go back to this Activity with onResume
+    override fun onResume() {
+        super.onResume()
 
-        //val intent = Intent(this, DetailActivity::class.java)
-        //intent.putExtra(EXTRA_ID, superhero.id)
-        //intent.putExtra(EXTRA_NAME, superhero.name)
-        //intent.putExtra(EXTRA_IMAGE, superhero.image.url)
-        //startActivity(intent)
+        // Finding all tasks on db and showing them
+        val taskDAO = TaskDAO(this)
+        taskList = taskDAO.findAll()
+        adapter.updateItems(taskList)
+
+        /*
+        // See on log the list of tasks
+        for(task in taskList) {
+            Log.i("DATABASE", task.toString())
+        }*/
+    }
+
+    // For later
+    private fun onItemClickListener(position:Int) {
+        //val task: Task = taskList[position]
         //Toast.makeText(this, getString(horoscope.name), Toast.LENGTH_LONG).show()
     }
-
-
-    /*private fun createTaskDialog() {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        addTaskTitle = builder.findViewById(R.id.addTaskTitle)
-        editTextName.setText("Name here")
-
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }*/
-
-    /*
-
-    private fun searchSuperheroes(query: String) {
-
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val response: Response<SuperheroesResponse> = RetrofitCalls().service.searchByName(query)
-
-            runOnUiThread {
-                if (response != null) {
-                    Log.i("HTTP", "Respuesta correcta")
-                    Log.i("HTTP", "Respuesta ${response.body()?.response}")
-                    Log.i("HTTP", "Respuesta ${response.body()?.results?.first()?.name}")
-                    superheroList = response.body()?.results.orEmpty()
-                    adapter.updateItems(superheroList)
-
-                } else {
-                    Log.i("HTTP", "Respuesta erronea")
-                }
-            }
-        }
-    }
-
-     */
 }
+
+/*val db: DatabaseManager = DatabaseManager(this)
+//db.createTask()
+db.readTasks()
+db.updateTask()
+db.readTasks()
+db.deleteTask()*/
