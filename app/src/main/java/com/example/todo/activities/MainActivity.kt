@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
             onDeleteItemListener(it)
         }, {
             onCheckedListener(it)
-        })//, {
-        //    onEditTaskListener(it)
+        }, {
+           onEditTaskListener(it) })
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -70,11 +70,20 @@ class MainActivity : AppCompatActivity() {
         //Toast.makeText(this, getString(horoscope.name), Toast.LENGTH_LONG).show()
     }
 
+    // Change true or false in the done column
     private fun onCheckedListener(position:Int) {
         val task = taskList[position]
-        task.done = !task.done
+        task.done = !task.done // Task done change state between true or false
         val taskDAO = TaskDAO(this)
         taskDAO.update(task)
+    }
+
+    private fun onEditTaskListener(position: Int) {
+
+        // A put extra is needed for the task ID to be able to edit the task text and enter to editTask mode
+        val intent = Intent(this, AddTaskActivity::class.java)
+        intent.putExtra("TASK_ID", taskList[position].id) // Put extra to be called on AddTaskActivity
+        startActivity(intent)
     }
 }
 

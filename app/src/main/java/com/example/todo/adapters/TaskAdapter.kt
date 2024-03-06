@@ -8,7 +8,8 @@ import com.example.todo.databinding.ItemTaskListBinding
 
 class TaskAdapter(private var items:List<Task> = listOf(),
                   private val onDeleteItemListener: (position:Int) -> Unit,
-                  private val onCheckedListener: (position:Int) -> Unit
+                  private val onCheckedListener: (position:Int) -> Unit,
+                  private val onEditTaskListener: (position:Int) -> Unit
     ) : RecyclerView.Adapter<ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemTaskListBinding.inflate(LayoutInflater.from(parent.context), parent,false)
@@ -23,6 +24,7 @@ class TaskAdapter(private var items:List<Task> = listOf(),
         holder.binding.doneCheckbox.setOnCheckedChangeListener { checkbox, isChecked ->
             if (checkbox.isPressed) { onCheckedListener(position) }
         }
+        holder.binding.taskTextView.setOnClickListener { onEditTaskListener(position) }
     }
 
     fun updateItems(results: List<Task>?) {

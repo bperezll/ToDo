@@ -4,4 +4,6 @@
     <string name="first_use_text">Create your first task</string>
     <string name="btn_save_task">Save task</string>
     <string name="btn_delete_task">Delete task</string>
+    <string name="btn_update_task">Update task</string>
+    <string name="update_task_title">Edit task</string>
 </resources>
