@@ -2,7 +2,10 @@ package com.example.todo.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todo.adapters.TaskAdapter
 import com.example.todo.data.Task
@@ -51,6 +54,11 @@ class MainActivity : AppCompatActivity() {
         taskList = taskDAO.findAll().toMutableList()
         adapter.updateItems(taskList)
 
+        // Tasks on app makes firstUseText gone
+        if (taskList.isNotEmpty()) {
+            binding.firstUseText.visibility = View.GONE
+        }
+
         /*
         // See on log the list of tasks
         for(task in taskList) {
@@ -66,6 +74,11 @@ class MainActivity : AppCompatActivity() {
         taskList.removeAt(position)
         adapter.notifyDataSetChanged()
         //Toast.makeText(this, getString(horoscope.name), Toast.LENGTH_LONG).show()
+
+        // No tasks on app makes firstUseText visible
+        if (taskList.isEmpty()) {
+            binding.firstUseText.visibility = View.VISIBLE
+        }
     }
 
     // Change true or false in the done column

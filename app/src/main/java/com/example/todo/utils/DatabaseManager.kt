@@ -12,14 +12,15 @@ class DatabaseManager(context:Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         const val DATABASE_NAME = "to_do.db"
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 2
         const val COLUMN_NAME_ID = "id"
 
         private const val SQL_CREATE_TABLE =
             "CREATE TABLE ${Task.TABLE_NAME} (" +
             "$COLUMN_NAME_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
             "${Task.COLUMN_NAME_TASK} TEXT," +
-            "${Task.COLUMN_NAME_DONE} BOOLEAN)"
+            "${Task.COLUMN_NAME_DONE} BOOLEAN," +
+            "${Task.COLUMN_NAME_CATEGORY} TEXT)"
 
         private const val SQL_DELETE_TABLE = "DROP TABLE IF EXISTS ${Task.TABLE_NAME}"
     }
