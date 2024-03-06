@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todo.adapters.TaskAdapter
 import com.example.todo.data.Task
+import com.example.todo.data.Task.Companion.COLUMN_NAME_TASK
 import com.example.todo.data.providers.TaskDAO
 import com.example.todo.databinding.ActivityMainBinding
+import com.example.todo.utils.DatabaseManager.Companion.COLUMN_NAME_ID
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,7 +28,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         // Adding TaskAdapter
-        adapter = TaskAdapter(taskList) { onDeleteItemListener(it) } //{ onCheckedListener(it) }
+        adapter = TaskAdapter(taskList, {
+            onDeleteItemListener(it)
+        }, {
+            onCheckedListener(it)
+        })//, {
+        //    onEditTaskListener(it)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -64,12 +71,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onCheckedListener(position:Int) {
-        //val task = taskList[position]
-        //val taskDAO = TaskDAO(this)
-        //taskDAO.delete(task)
-        //taskList.removeAt(position)
-        //adapter.notifyDataSetChanged()
-        //Toast.makeText(this, getString(horoscope.name), Toast.LENGTH_LONG).show()
+        val task = taskList[position]
+        task.done = !task.done
+        val taskDAO = TaskDAO(this)
+        taskDAO.update(task)
     }
 }
 
