@@ -6,10 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todo.adapters.TaskAdapter
 import com.example.todo.data.Task
-import com.example.todo.data.Task.Companion.COLUMN_NAME_TASK
 import com.example.todo.data.providers.TaskDAO
 import com.example.todo.databinding.ActivityMainBinding
-import com.example.todo.utils.DatabaseManager.Companion.COLUMN_NAME_ID
 
 class MainActivity : AppCompatActivity() {
 
