@@ -50,7 +50,7 @@ class AddTaskActivity : AppCompatActivity() {
     }
 
     private fun editTask() {
-        val task = taskDAO.find(taskId)!! // Value task equals to the task ID
+        val task = taskDAO.find(taskId)!! // Value task equals to the existing task ID and is not null
 
         binding.addTaskBody.setText(task.task) // Set text to the already added text
 

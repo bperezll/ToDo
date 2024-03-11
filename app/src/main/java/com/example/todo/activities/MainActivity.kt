@@ -3,14 +3,15 @@ package com.example.todo.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todo.R
 import com.example.todo.adapters.TaskAdapter
 import com.example.todo.data.Task
 import com.example.todo.data.providers.TaskDAO
 import com.example.todo.databinding.ActivityMainBinding
+import com.example.todo.databinding.DialogDeleteMessageBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -68,12 +69,30 @@ class MainActivity : AppCompatActivity() {
 
     // Delete a task with the delete button
     private fun onDeleteItemListener(position:Int) {
-        val task = taskList[position]
-        val taskDAO = TaskDAO(this)
-        taskDAO.delete(task)
-        taskList.removeAt(position)
-        adapter.notifyDataSetChanged()
-        //Toast.makeText(this, getString(horoscope.name), Toast.LENGTH_LONG).show()
+
+        // Delete task dialog creation
+        val askForDeleteDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+        val deleteMessageBinding: DialogDeleteMessageBinding = DialogDeleteMessageBinding.inflate(layoutInflater)
+        askForDeleteDialog.setView(deleteMessageBinding.root)
+
+        // Delete task button
+        askForDeleteDialog.setPositiveButton(R.string.btn_delete_task) { _, _ ->
+            // Actions to delete the task
+            val task = taskList[position]
+            val taskDAO = TaskDAO(this)
+            taskDAO.delete(task)
+            taskList.removeAt(position)
+            adapter.notifyDataSetChanged()
+        }
+
+        // Cancel button
+        askForDeleteDialog.setNegativeButton(android.R.string.cancel) { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        // Showing the dialog no pressing delete icon
+        val alertDialog: AlertDialog = askForDeleteDialog.create()
+        alertDialog.show()
 
         // No tasks on app makes firstUseText visible
         if (taskList.isEmpty()) {
