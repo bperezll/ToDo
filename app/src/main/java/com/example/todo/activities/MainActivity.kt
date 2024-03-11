@@ -23,8 +23,12 @@ class MainActivity : AppCompatActivity() {
 
     private var taskList:MutableList<Task> = mutableListOf() // Using Task as a List
 
+    private lateinit var taskDAO: TaskDAO
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        taskDAO = TaskDAO(this)
 
         // View binding initialization
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -46,6 +50,24 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, AddTaskActivity::class.java)
             startActivity(intent)
         }
+
+        binding.taskSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean { return false }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                taskList = if (newText.isNullOrEmpty()) {
+                    taskDAO.findAll().toMutableList()
+                } else {
+                    taskDAO.findAll().filter { /*getString(it.task)*/task -> (task.task).contains(newText, true) }.toMutableList()
+                }
+
+                // Update the list to all if empty, or to the ones containing the query
+                adapter.updateItems(taskList)
+                return true
+            }
+        })
     }
 
     // After add task, go back to this Activity with onResume
@@ -53,7 +75,6 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         // Finding all tasks on db and showing them
-        val taskDAO = TaskDAO(this)
         taskList = taskDAO.findAll().toMutableList()
         adapter.updateItems(taskList)
 
@@ -100,6 +121,12 @@ class MainActivity : AppCompatActivity() {
         if (taskList.isEmpty()) {
             binding.firstUseText.visibility = View.VISIBLE
         }
+
+        /*binding.taskSearch.setOnClickListener {
+            val searchText = binding.taskSearch
+            initSearchView(searchText)
+        }*/
+        // initSearchView(binding.taskSearch as MenuItem)
     }
 
     // Change true or false in the done column
@@ -116,33 +143,6 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, AddTaskActivity::class.java)
         intent.putExtra("TASK_ID", taskList[position].id) // Put extra to be called on AddTaskActivity
         startActivity(intent)
-    }
-
-    //// No funciona el onQueryTextChange
-    private fun initSearchView(searchItem: MenuItem) {
-        val searchView = searchItem.actionView as SearchView
-
-        binding.taskSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                taskList = if (newText.isNullOrEmpty()) {
-                    taskList
-                } else {
-                    taskList.filter { /*getString(it.task)*/getString(it.task.toInt()).contains(newText, true) }.toMutableList()
-                    //taskList.filter { /*getString(it.task)*/task -> (task.task).contains(newText, true) }.toMutableList()
-                }
-
-                // Update the list to all if empty, or to the ones containing the query
-
-                adapter.updateItems(taskList)
-                return true
-                //return searchDatabase(newText);
-            }
-
-        })
     }
 }
 
