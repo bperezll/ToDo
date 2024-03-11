@@ -2,9 +2,11 @@ package com.example.todo.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todo.R
 import com.example.todo.adapters.TaskAdapter
@@ -114,6 +116,33 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, AddTaskActivity::class.java)
         intent.putExtra("TASK_ID", taskList[position].id) // Put extra to be called on AddTaskActivity
         startActivity(intent)
+    }
+
+    //// No funciona el onQueryTextChange
+    private fun initSearchView(searchItem: MenuItem) {
+        val searchView = searchItem.actionView as SearchView
+
+        binding.taskSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                taskList = if (newText.isNullOrEmpty()) {
+                    taskList
+                } else {
+                    taskList.filter { /*getString(it.task)*/getString(it.task.toInt()).contains(newText, true) }.toMutableList()
+                    //taskList.filter { /*getString(it.task)*/task -> (task.task).contains(newText, true) }.toMutableList()
+                }
+
+                // Update the list to all if empty, or to the ones containing the query
+
+                adapter.updateItems(taskList)
+                return true
+                //return searchDatabase(newText);
+            }
+
+        })
     }
 }
 
