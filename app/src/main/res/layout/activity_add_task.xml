@@ -30,15 +30,15 @@
         app:layout_constraintTop_toBottomOf="@id/addTaskTitle"
         app:layout_constraintBottom_toTopOf="@id/saveTaskButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
+        app:layout_constraintEnd_toEndOf="parent">
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/addTaskBody"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
-        android:background="@null"
+        android:paddingVertical="12dp"
+        android:lineSpacingExtra="8sp"
         android:gravity="top"
         tools:text="Previsualización de como se vería el texto"
         app:layout_constraintTop_toBottomOf="@id/addTaskTitle"
