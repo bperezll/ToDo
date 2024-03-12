@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Search tasks as you type
         binding.taskSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean { return false }
