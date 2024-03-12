@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 taskList = if (newText.isNullOrEmpty()) {
                     taskDAO.findAll().toMutableList()
                 } else {
-                    taskDAO.findAll().filter { /*getString(it.task)*/task -> (task.task).contains(newText, true) }.toMutableList()
+                    taskDAO.findAll().filter { task -> (task.task).contains(newText, true) }.toMutableList()
                 }
 
                 // Update the list to all if empty, or to the ones containing the query
