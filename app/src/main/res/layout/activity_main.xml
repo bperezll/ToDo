@@ -37,7 +37,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="#DCDCDC"/>
+        android:background="#DCDCDC">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/ic_category"
+            android:backgroundTint="@color/black"
+            android:contentDescription="@string/category_description" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnFab"

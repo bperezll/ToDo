@@ -7,4 +7,5 @@
     <string name="btn_update_task">Update task</string>
     <string name="update_task_title">Edit task</string>
     <string name="delete_task_message">Deleting the task?</string>
+    <string name="category_description">Categories</string>
 </resources>
