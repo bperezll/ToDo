@@ -41,7 +41,7 @@ class AddTaskActivity : AppCompatActivity() {
          binding.saveTaskButton.setOnClickListener {
 
              // Add a task
-             val task = Task(-1, binding.addTaskBody.text.toString(), false, "Default")
+             val task = Task(-1, binding.addTaskBody.text.toString(), false)
              taskDAO.insert(task)
 
              // Go back to MainActivity finishing AddTaskActivity

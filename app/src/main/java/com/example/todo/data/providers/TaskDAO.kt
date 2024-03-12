@@ -16,7 +16,7 @@ class TaskDAO(context: Context) {
         var values = ContentValues()
         values.put(Task.COLUMN_NAME_TASK, task.task)
         values.put(Task.COLUMN_NAME_DONE, task.done)
-        values.put(Task.COLUMN_NAME_CATEGORY, task.category)
+        //values.put(Task.COLUMN_NAME_CATEGORY, task.category)
 
         var newRowId = db.insert(Task.TABLE_NAME, null, values)
         Log.i("DATABASE", "New record ID: $newRowId")
@@ -33,7 +33,7 @@ class TaskDAO(context: Context) {
         var values = ContentValues()
         values.put(Task.COLUMN_NAME_TASK, task.task)
         values.put(Task.COLUMN_NAME_DONE, task.done)
-        values.put(Task.COLUMN_NAME_CATEGORY, task.category)
+        //values.put(Task.COLUMN_NAME_CATEGORY, task.category)
 
         var updateRows = db.update(Task.TABLE_NAME, values, "${DatabaseManager.COLUMN_NAME_ID} = ${task.id}", null)
         Log.i("DATABASE", "Updated records: $updateRows")
@@ -70,10 +70,10 @@ class TaskDAO(context: Context) {
             val id = cursor.getInt(cursor.getColumnIndex(DatabaseManager.COLUMN_NAME_ID))
             val taskName = cursor.getString(cursor.getColumnIndex(Task.COLUMN_NAME_TASK))
             val done = cursor.getInt(cursor.getColumnIndex(Task.COLUMN_NAME_TASK)) == 1
-            val category = cursor.getString(cursor.getColumnIndex(Task.COLUMN_NAME_CATEGORY))
+            //val category = cursor.getString(cursor.getColumnIndex(Task.COLUMN_NAME_CATEGORY))
             //Log.i("DATABASE", "$id -> Task: $taskName, Done: $done")
 
-            task = Task(id, taskName, done, category)
+            task = Task(id, taskName, done)
         }
 
         cursor.close()
@@ -102,10 +102,10 @@ class TaskDAO(context: Context) {
             val id = cursor.getInt(cursor.getColumnIndex(DatabaseManager.COLUMN_NAME_ID))
             val taskName = cursor.getString(cursor.getColumnIndex(Task.COLUMN_NAME_TASK))
             val done = cursor.getInt(cursor.getColumnIndex(Task.COLUMN_NAME_DONE)) == 1
-            val category = cursor.getString(cursor.getColumnIndex(Task.COLUMN_NAME_CATEGORY))
+            //val category = cursor.getString(cursor.getColumnIndex(Task.COLUMN_NAME_CATEGORY))
             //Log.i("DATABASE", "$id -> Task: $taskName, Done: $done")
 
-            val task: Task = Task(id, taskName, done, category)
+            val task: Task = Task(id, taskName, done)
 
             list.add(task)
         }
